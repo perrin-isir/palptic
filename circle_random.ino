@@ -1,24 +1,56 @@
+#include <EEPROM.h>
+
 #define PINa 2
 #define PINb 4
 #define PINc 6
 #define PINd 9
 #define PINe 12
-#define PERIOD 1200
-#define TIMEon 300
-#define PAUSE 100
+#define PERIOD_mode1 1800
+#define TIMEon_mode1 350
+#define PAUSE_mode1 100
+#define PERIOD_mode2 1000
+#define TIMEon_mode2 500
+#define PAUSE_mode2 200
+
+const int eepromAddress = 0; // EEPROM address to store boolean value
+static int loop_count = 0;
+static bool mode1 = true;
+static bool change_done = false;
 
 void setup() {
   // put your setup code here, to run once
 
+  mode1 = EEPROM.read(eepromAddress); // read saved boolean value from EEPROM
   pinMode(PINa, OUTPUT);
   pinMode(PINb, OUTPUT);
   pinMode(PINc, OUTPUT);
   pinMode(PINd, OUTPUT);
   pinMode(PINe, OUTPUT);
+  EEPROM.write(eepromAddress, !mode1);
 }
 
 void loop() {
   // put your main code here, to run repeatedly
+
+  int PERIOD = 0;
+  int TIMEon = 0;
+  int PAUSE = 0;
+  if (mode1 == true) {
+    PERIOD = PERIOD_mode1;
+    TIMEon = TIMEon_mode1;
+    PAUSE = PAUSE_mode1;
+  }
+  else {
+    PERIOD = PERIOD_mode2;
+    TIMEon = TIMEon_mode2;
+    PAUSE = PAUSE_mode2;    
+  }
+
+  if (loop_count * PERIOD > 4000 && !change_done) {
+    change_done = true;
+    EEPROM.write(eepromAddress, mode1);
+  }
+  loop_count++;
 
   int myPins[] = {PINa, PINb, PINc, PINd, PINe};
   // or, to test a single Pin:
@@ -36,7 +68,7 @@ void loop() {
     int temp = myPins[n];
     myPins[n] = myPins[i];
     myPins[i] = temp;
-    tvar = tvar + tvar_step;
+    tvar += tvar_step;
     intervals[i+1] = tvar;
   }
   for (int i=1; i < length; i++) {
