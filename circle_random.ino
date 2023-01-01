@@ -13,6 +13,10 @@
 #define PAUSE_mode2 200
 
 const int eepromAddress = 0; // EEPROM address to store boolean value
+static int myPins[] = {PINa, PINb, PINc, PINd, PINe};
+// or, to test a single Pin:
+// static int myPins[] = {PINe};
+const int length = (sizeof(myPins) / sizeof(myPins[0]));
 static int loop_count = 0;
 static bool mode1 = true;
 static bool change_done = false;
@@ -21,11 +25,9 @@ void setup() {
   // put your setup code here, to run once
 
   mode1 = EEPROM.read(eepromAddress); // read saved boolean value from EEPROM
-  pinMode(PINa, OUTPUT);
-  pinMode(PINb, OUTPUT);
-  pinMode(PINc, OUTPUT);
-  pinMode(PINd, OUTPUT);
-  pinMode(PINe, OUTPUT);
+  for (int i=0; i < length; i++) {
+    pinMode(myPins[i], OUTPUT);
+  }
   EEPROM.write(eepromAddress, !mode1);
 }
 
@@ -52,11 +54,6 @@ void loop() {
   }
   loop_count++;
 
-  int myPins[] = {PINa, PINb, PINc, PINd, PINe};
-  // or, to test a single Pin:
-  // int myPins[] = {PINc};
-
-  int length = (sizeof(myPins) / sizeof(myPins[0]));
   int intervals[length + 1];
   intervals[0] = 0;
   int tvar = 0;
