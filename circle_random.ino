@@ -5,21 +5,22 @@
 #define PINc 6
 #define PINd 9
 #define PINe 12
-#define PERIOD_mode1 1800
-#define TIMEon_mode1 350
-#define PAUSE_mode1 100
-#define PERIOD_mode2 1000
-#define TIMEon_mode2 500
-#define PAUSE_mode2 200
 
 const int eepromAddress = 0; // EEPROM address to store boolean value
 static int myPins[] = {PINa, PINb, PINc, PINd, PINe};
 // or, to test a single Pin:
-// static int myPins[] = {PINe};
+// static int myPins[] = {PINa};
 const int length = (sizeof(myPins) / sizeof(myPins[0]));
 static int loop_count = 0;
 static bool mode1 = true;
 static bool change_done = false;
+
+#define PERIOD_mode1 1800 * length/5
+#define TIMEon_mode1 350 * length/5
+#define PAUSE_mode1 100 * length/5
+#define PERIOD_mode2 1000 * length/5
+#define TIMEon_mode2 500 * length/5
+#define PAUSE_mode2 200 * length/5
 
 void setup() {
   // put your setup code here, to run once
