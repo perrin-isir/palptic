@@ -16,8 +16,8 @@ static int loop_count = 0;
 static bool mode1 = true;
 static bool change_done = false;
 
-#define PERIOD_mode1 360
-#define TIMEon_mode1 70
+#define PERIOD_mode1 400
+#define TIMEon_mode1 60
 #define PAUSE_mode1 20
 #define PERIOD_mode2 200
 #define TIMEon_mode2 100
@@ -69,24 +69,39 @@ void loop() {
     myPins[i] = temp;
   }
 
-  int intervals[true_length + 1];
-  intervals[0] = 0;
-  int tvar = 0;
-  int tvar_step = PERIOD - TIMEon - PAUSE;
-  int tvar_delta = tvar_step * 4 / 10;
+  int intervals_off[true_length + 1];
+  intervals_off[0] = 0;
+  int tvar_off = 0;
+  int tvar_step_off = PERIOD - TIMEon - PAUSE;
+  int tvar_delta_off = tvar_step_off * 4 / 10;
   for (int i=0; i < true_length; i++) {
-    tvar += tvar_step;
-    intervals[i+1] = tvar;
+    tvar_off += tvar_step_off;
+    intervals_off[i+1] = tvar_off;
   }
   for (int i=1; i < true_length; i++) {
-    int delta = random(0, 2 * tvar_delta + 1);
-    intervals[i] = intervals[i] - tvar_delta + delta;
+    int delta_off = random(0, 2 * tvar_delta_off + 1);
+    intervals_off[i] = intervals_off[i] - tvar_delta_off + delta_off;
   }
+
+  int intervals_on[true_length + 1];
+  intervals_on[0] = 0;
+  int tvar_on = 0;
+  int tvar_step_on = TIMEon;
+  int tvar_delta_on = tvar_step_on * 3 / 10;
+  for (int i=0; i < true_length; i++) {
+    tvar_on += tvar_step_on;
+    intervals_on[i+1] = tvar_on;
+  }
+  for (int i=1; i < true_length; i++) {
+    int delta_on = random(0, 2 * tvar_delta_on + 1);
+    intervals_on[i] = intervals_on[i] - tvar_delta_on + delta_on;
+  }
+  
   for (int i=0; i < true_length; i++) {
     digitalWrite(myPins[i], HIGH);
-    delay(TIMEon);
+    delay(intervals_on[i + 1] - intervals_on[i]);
     digitalWrite(myPins[i], LOW);
-    delay(intervals[i + 1] - intervals[i]);
+    delay(intervals_off[i + 1] - intervals_off[i]);
   }
   delay(PAUSE * true_length);
 }
