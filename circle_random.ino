@@ -16,12 +16,12 @@ static int loop_count = 0;
 static bool mode1 = true;
 static bool change_done = false;
 
-#define PERIOD_mode1 400
+#define PERIOD_mode1 420
 #define TIMEon_mode1 60
 #define PAUSE_mode1 20
 #define PERIOD_mode2 200
 #define TIMEon_mode2 100
-#define PAUSE_mode2 40
+#define PAUSE_mode2 20
 
 void setup() {
   // put your setup code here, to run once
