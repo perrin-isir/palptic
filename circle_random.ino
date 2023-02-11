@@ -8,9 +8,11 @@
 
 #define PERIOD_mode1 360
 #define TIMEon_mode1 55
+#define PAUSE_mode1 150
 
 #define PERIOD_mode2 300
 #define TIMEon_mode2 85
+#define PAUSE_mode2 100
 
 const int eepromAddress = 0; // EEPROM address to store boolean value
 static int myPins[] = {PINa, PINb, PINc, PINd, PINe};
@@ -21,9 +23,6 @@ const int reference_length = 5;
 static int loop_count = 0;
 static bool mode1 = true;
 static bool change_done = false;
-
-#define PAUSE_mode1 0
-#define PAUSE_mode2 0
 
 void setup() {
   // put your setup code here, to run once
@@ -44,12 +43,12 @@ void loop() {
   if (mode1 == true) {
     PERIOD = PERIOD_mode1;
     TIMEon = TIMEon_mode1;
-    PAUSE = PAUSE_mode1;
+    PAUSE = random(PAUSE_mode1 * 1/2, PAUSE_mode1 * 3/2);
   }
   else {
     PERIOD = PERIOD_mode2;
     TIMEon = TIMEon_mode2;
-    PAUSE = PAUSE_mode2;    
+    PAUSE = random(PAUSE_mode2 * 1/2, PAUSE_mode2 * 3/2); 
   }
 
   int true_length = length;
