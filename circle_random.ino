@@ -6,8 +6,8 @@
 #define PINd 10
 #define PINe 12
 
-#define PERIOD_mode1 300
-#define TIMEon_mode1 60
+#define PERIOD_mode1 360
+#define TIMEon_mode1 55
 
 #define PERIOD_mode2 300
 #define TIMEon_mode2 85
