@@ -1,2 +1,2 @@
-# pacmask
-arduino code for the pacmask device
+Code Arduino pour Palptic (appareil DIY)
+Arduino code for Palptic (DIY Device)
